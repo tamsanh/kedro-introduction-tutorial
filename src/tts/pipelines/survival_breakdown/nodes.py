@@ -25,30 +25,21 @@
 #
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-"""Construction of the master pipeline.
+"""
+This is a boilerplate pipeline 'survival_breakdown'
+generated using Kedro 0.16.4
 """
 
-from typing import Dict
-
-from kedro.pipeline import Pipeline
-
-from tts.pipelines import hello_world, survival_breakdown
+import matplotlib.pyplot as plt
 
 
-def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
-    """Create the project's pipeline.
-
-    Args:
-        kwargs: Ignore any additional arguments added in the future.
-
-    Returns:
-        A mapping from a pipeline name to a ``Pipeline`` object.
-
+def survival_breakdown(df):
     """
-
-    return {
-        # "survival_breakdown": survival_breakdown.create_pipeline(),
-        "hello-world": hello_world.create_pipeline(),
-        "__default__": Pipeline([]),
-    }
+    Plot the amount of people who survived and who died.
+    """
+    plt.figure(figsize=(6, 4))
+    fig, ax = plt.subplots()
+    df.Survived.value_counts().plot(kind='barh', color="blue", alpha=.65)
+    ax.set_ylim(-1, len(df.Survived.value_counts()))
+    plt.title("Survival Breakdown (1 = Survived, 0 = Died)")
+    return fig
