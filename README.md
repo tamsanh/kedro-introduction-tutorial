@@ -138,3 +138,50 @@ The `node` function requires three arguments in order to create a node. The firs
 ### Connecting our DataSet to our Node
 
 For this exercise, we're going to be connecting the `titanic_training_data` DataSet to the `survival_breakdown` pipeline.
+
+Remove the `REPLACE_ME` dataset and add in the `titanic_training_data` as value for `inputs`, inside of the `survival_breakdown` pipeline, for the `survival_breakdown` node.
+
+```python
+def create_pipeline(**kwargs):
+    return Pipeline([
+        node(
+            survival_breakdown,
+            # inputs="REPLACE_ME"
+            inputs="titanic_training_data",
+            outputs="survival_breakdown_chart"
+        )
+    ])
+```
+
+And now let's go ahead and run the `survival-breakdown` pipeline with `kedro run --pipeline survival-breakdown`.
+
+### Reading the Catalog
+
+When the pipeline completes, we will have the final output chart. But where is this chart located?
+
+Obviously, the system is outputting to the `survival_breakdown_chart` catalog entry, but what does that mean?
+
+In order to make this portable, kedro separates the actual file location of files from the reference to the files. In this case `survival_breakdown_chart` is a reference to a dictionary entry that contains the actual catalog entry.
+The catalog entry is located inside of the `conf/base/catalog.yml`, and if you open this file, you will see a depiction of all the files that kedro has access to.
+
+For our case, the chart file in question has the following catalog entry.
+
+```python
+survival_breakdown_chart:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/survival_breakdown.png
+```
+
+As we can see, the chart is located inside of the `data/08_reporting/survival_breakdown.png` folder.
+The `data` has a lot of different subfolders. To understand the meaning of all of them, you can take a look at this page on the kedro documentation: [What is data engineering convention?](https://kedro.readthedocs.io/en/stable/11_faq/01_faq.html?highlight=reporting#what-is-data-engineering-convention).
+
+Opening up our file, we can see it should look something like this:
+
+![Survival Breakdown](images/survival_breakdown.png)
+
+Neat! It's a simple node that outputs a simple result.
+
+### Part 3: Creating Our Own DataSet
+
+In this section, we're going to create a new dataset to hookup to a new pipeline, so that we can get even more output.
+

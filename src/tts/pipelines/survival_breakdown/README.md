@@ -4,18 +4,12 @@
 
 ## Overview
 
-<!---
-Please describe your modular pipeline here.
--->
+Generates a graph that includes the survival breakdown
 
 ## Pipeline inputs
 
-<!---
-The list of pipeline inputs.
--->
+The `train.csv` from the Kaggle Titanic set.
 
 ## Pipeline outputs
 
-<!---
-The list of pipeline outputs.
--->
+An image of a graph showing survival.

@@ -37,6 +37,10 @@ def survival_breakdown(df):
     """
     Plot the amount of people who survived and who died.
     """
+    df = df.drop(['Ticket', 'Cabin'], axis=1)
+    # Remove NaN values
+    df = df.dropna()
+
     plt.figure(figsize=(6, 4))
     fig, ax = plt.subplots()
     df.Survived.value_counts().plot(kind='barh', color="blue", alpha=.65)

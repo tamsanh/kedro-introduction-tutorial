@@ -48,7 +48,7 @@ def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
     """
 
     return {
-        # "survival_breakdown": survival_breakdown.create_pipeline(),
+        "survival-breakdown": survival_breakdown.create_pipeline(),
         "hello-world": hello_world.create_pipeline(),
         "__default__": Pipeline([]),
     }
