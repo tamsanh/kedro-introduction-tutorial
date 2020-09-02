@@ -278,3 +278,10 @@ kedro pipeline create [INSERT PIPELINE NAME]
 ```
 
 Kedro will create a pipeline for us inside of the `pipelines` folder in our project, named with whatever name we give it.
+
+Let's create a pipeline called "final_pipeline" with the command `kedro pipeline create final_pipeline`. We're going to be using a premade node for this pipeline, which can be find inside of `tts/pipelines/final_node.py`.
+Inside of that file, we have the function `final_pipeline_tutorial_node` which we can add to the pipeline as a node.
+
+If you have been following the tutorial so far, you should have all the skills you need to get the output of this node on your own!
+
+### Part 6: Access through Jupyter Notebook
