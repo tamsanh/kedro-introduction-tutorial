@@ -240,16 +240,8 @@ def create_pipeline(**kwargs):
             inputs='titanic_training_data',
             outputs='clean_titanic_training_data',
         ),
-        node(
-            replace_me,
-            inputs='REPLACE_ME',
-            outputs=None,
-        ),
-        node(
-            replace_me,
-            inputs='REPLACE_ME',
-            outputs=None,
-        )
+        node(replace_me1, inputs="REPLACE_ME", outputs=None),
+        node(replace_me2, inputs="REPLACE_ME", outputs=None),
     ])
 ```
 
@@ -284,4 +276,83 @@ Inside of that file, we have the function `final_pipeline_tutorial_node` which w
 
 If you have been following the tutorial so far, you should have all the skills you need to get the output of this node on your own!
 
-### Part 6: Access through Jupyter Notebook
+## Extra Kedro Goodness
+
+### Access through Jupyter Notebook
+
+If kedro was pipeline only, that would be a bit unfortunate, as most modern data science is done. Thankfully, kedro has a fantastic integration with your kedro notebooks.
+The integration allows you to access the catalog data within the notebook very easily and also comes with the ability to extract any cells you create in the notebook and put them back into your project.
+
+There are three ways to get to get access to your kedro catalog via the notebook. These are in order of preference.
+
+#### Setting Up the Notebooks
+
+All of these methods will give you access to the catalog and context.
+
+##### Start Jupyter with Kedro
+
+If you start jupyter with kedro, you will automatically get access to the `catalog` and the `context`.
+
+```
+kedro jupyter notebook
+```
+
+##### Call the Kedro Initialization Function Inside an Existing Notebook
+
+If you already have a jupyter notebook started up, you can simply call the init script that kedro normally uses.
+
+For the `[PATH TO PROJECT ROOT]`, this can be relative or absolute.
+
+
+```python
+%run'[PATH TO PROJECT ROOT]/.ipython/profile_default/startup/00-kedro-init.py'
+```
+
+
+If you are in the `notebooks` folder, you can simply use `..` for the relative path.
+
+
+##### Load the Project Manually
+
+If the above methods are not available to you, this final method will work for you (and this method can also be used to get access to a kedro project in another python project).
+
+Just replace the `PATH_TO_PROJECT_ROOT` with your actual project root path. This can also be relative, but I recommend using absolute.
+
+```python
+from kedro.framework.context import load_context
+
+context = load_context(PATH_TO_PROJECT_ROOT)
+catalog = context.catalog
+```
+
+#### Using the Catalog in the Notebook
+
+The catalog is what allows us to load data from our project inside of our notebook.
+
+First use the `catalog.list()` function to list out all of the available datasets.
+
+This will print out all of the datasets we have available to load from, which are the ones listed in the `catalog.yml` by default.
+
+![Catalog List](images/catalog_list.png)
+
+Then, we can use `catalog.load(DATASET_NAME)` to load the dataset we wish to load.
+
+![Catalog Load](images/catalog_load.png)
+
+And that's it! Now you can go nuts with data analytics, while still piggybacking off of the work you and your colleagues have done.
+
+### Visualizing All of Our Work
+
+Once all of the pipelines have been completed, it would be great to visualize all of our work. In order to do this, kedro has a visualization tool called `kedro-viz` which we can get by simply using `pip install kedro-viz`.
+
+The visualization tool relies on whatever is available in the `__default__` pipeline to create its visualization. In the case of this project, all the pipelines are available in the `__default__` pipeline, so can be visualized by running the following command:
+
+```bash
+kedro viz
+```
+
+Your default webbrowser will open up, and you'll be greeted by a lovely visualization of your pipeline!
+
+## Congrats!
+
+You now know the basics of using kedro, and are equipped to go on to make some great things. Thank you for joining me on this journey!

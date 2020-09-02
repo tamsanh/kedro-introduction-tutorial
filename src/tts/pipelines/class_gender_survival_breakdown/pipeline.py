@@ -35,7 +35,11 @@ from kedro.pipeline import Pipeline, node
 from .nodes import clean_raw_data, gender_class_breakdown, gender_proportion_breakdown
 
 
-def replace_me(x):
+def replace_me1(x):
+    return x
+
+
+def replace_me2(x):
     return x
 
 
@@ -47,7 +51,7 @@ def create_pipeline(**kwargs):
                 inputs="titanic_training_data",
                 outputs="clean_titanic_training_data",
             ),
-            node(replace_me, inputs="REPLACE_ME", outputs=None, name="REPLACE_ME1"),
-            node(replace_me, inputs="REPLACE_ME", outputs=None, name="REPLACE_ME2"),
+            node(replace_me1, inputs="REPLACE_ME", outputs=None),
+            node(replace_me2, inputs="REPLACE_ME", outputs=None),
         ]
     )
