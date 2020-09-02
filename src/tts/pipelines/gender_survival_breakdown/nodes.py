@@ -39,7 +39,7 @@ def gender_survival_breakdown(df):
     Plot the amount of people who survived and who died, segmented by gender.
     """
 
-    df = df.drop(['Ticket', 'Cabin'], axis=1)
+    df = df.drop(["Ticket", "Cabin"], axis=1)
     # Remove NaN values
     df = df.dropna()
 
@@ -48,22 +48,24 @@ def gender_survival_breakdown(df):
     # create a plot of two subsets, male and female, of the survived variable.
     # After we do that we call value_counts() so it can be easily plotted as a bar graph.
     # 'barh' is just a horizontal bar graph
-    df_male = df.Survived[df.Sex == 'male'].value_counts().sort_index()
-    df_female = df.Survived[df.Sex == 'female'].value_counts().sort_index()
+    df_male = df.Survived[df.Sex == "male"].value_counts().sort_index()
+    df_female = df.Survived[df.Sex == "female"].value_counts().sort_index()
 
     ax1 = fig.add_subplot(121)
-    df_male.plot(kind='barh', label='Male', alpha=0.55)
-    df_female.plot(kind='barh', color='#FA2379', label='Female', alpha=0.55)
-    plt.title("Who Survived? with respect to Gender, (raw value counts) ");
-    plt.legend(loc='best')
+    df_male.plot(kind="barh", label="Male", alpha=0.55)
+    df_female.plot(kind="barh", color="#FA2379", label="Female", alpha=0.55)
+    plt.title("Who Survived? with respect to Gender, (raw value counts) ")
+    plt.legend(loc="best")
     ax1.set_ylim(-1, 2)
 
     # adjust graph to display the proportions of survival by gender
     ax2 = fig.add_subplot(122)
-    (df_male / float(df_male.sum())).plot(kind='barh', label='Male', alpha=0.55)
-    (df_female / float(df_female.sum())).plot(kind='barh', color='#FA2379', label='Female', alpha=0.55)
-    plt.title("Who Survived proportionally? with respect to Gender");
-    plt.legend(loc='best')
+    (df_male / float(df_male.sum())).plot(kind="barh", label="Male", alpha=0.55)
+    (df_female / float(df_female.sum())).plot(
+        kind="barh", color="#FA2379", label="Female", alpha=0.55
+    )
+    plt.title("Who Survived proportionally? with respect to Gender")
+    plt.legend(loc="best")
 
     ax2.set_ylim(-1, 2)
 

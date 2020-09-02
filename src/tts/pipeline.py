@@ -33,7 +33,12 @@ from typing import Dict
 
 from kedro.pipeline import Pipeline
 
-from tts.pipelines import hello_world, survival_breakdown, gender_survival_breakdown, class_gender_survival_breakdown
+from tts.pipelines import (
+    hello_world,
+    survival_breakdown,
+    gender_survival_breakdown,
+    class_gender_survival_breakdown,
+)
 
 
 def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
@@ -52,5 +57,12 @@ def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
         "survival-breakdown": survival_breakdown.create_pipeline(),
         "gender-survival-breakdown": gender_survival_breakdown.create_pipeline(),
         "hello-world": hello_world.create_pipeline(),
-        "__default__": Pipeline([]),
+        "__default__": Pipeline(
+            [
+                class_gender_survival_breakdown.create_pipeline()
+                + survival_breakdown.create_pipeline()
+                + gender_survival_breakdown.create_pipeline()
+                + hello_world.create_pipeline()
+            ]
+        ),
     }

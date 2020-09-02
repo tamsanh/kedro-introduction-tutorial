@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 
 def final_pipeline_tutorial_node(df):
-    df = df.drop(['Ticket', 'Cabin'], axis=1)
+    df = df.drop(["Ticket", "Cabin"], axis=1)
     # Remove NaN values
     df = df.dropna()
 
@@ -14,7 +14,7 @@ def final_pipeline_tutorial_node(df):
     # lets us plot many diffrent shaped graphs together
     ax1 = plt.subplot2grid((2, 3), (0, 0))
     # plots a bar graph of those who surived vs those who did not.
-    df.Survived.value_counts().plot(kind='bar', alpha=alpha_bar_chart)
+    df.Survived.value_counts().plot(kind="bar", alpha=alpha_bar_chart)
     # this nicely sets the margins in matplotlib to deal with a recent bug 1.3.1
     ax1.set_xlim(-1, 2)
     # puts a title on our graph
@@ -25,7 +25,7 @@ def final_pipeline_tutorial_node(df):
     # sets the y axis lable
     plt.ylabel("Age")
     # formats the grid line style of our graphs
-    plt.grid(b=True, which='major', axis='y')
+    plt.grid(b=True, which="major", axis="y")
     plt.title("Survival by Age,  (1 = Survived)")
 
     ax3 = plt.subplot2grid((2, 3), (0, 2))
@@ -35,17 +35,17 @@ def final_pipeline_tutorial_node(df):
 
     plt.subplot2grid((2, 3), (1, 0), colspan=2)
     # plots a kernel density estimate of the subset of the 1st class passangers's age
-    df.Age[df.Pclass == 1].plot(kind='kde')
-    df.Age[df.Pclass == 2].plot(kind='kde')
-    df.Age[df.Pclass == 3].plot(kind='kde')
+    df.Age[df.Pclass == 1].plot(kind="kde")
+    df.Age[df.Pclass == 2].plot(kind="kde")
+    df.Age[df.Pclass == 3].plot(kind="kde")
     # plots an axis lable
     plt.xlabel("Age")
     plt.title("Age Distribution within classes")
     # sets our legend for our graph.
-    plt.legend(('1st Class', '2nd Class', '3rd Class'), loc='best')
+    plt.legend(("1st Class", "2nd Class", "3rd Class"), loc="best")
 
     ax5 = plt.subplot2grid((2, 3), (1, 2))
-    df.Embarked.value_counts().plot(kind='bar', alpha=alpha_bar_chart)
+    df.Embarked.value_counts().plot(kind="bar", alpha=alpha_bar_chart)
     ax5.set_xlim(-1, len(df.Embarked.value_counts()))
     # specifies the parameters of our graphs
     plt.title("Passengers per boarding location")

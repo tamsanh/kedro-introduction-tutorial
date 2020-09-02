@@ -35,7 +35,7 @@ import matplotlib.pyplot as plt
 
 
 def clean_raw_data(df):
-    df = df.drop(['Ticket', 'Cabin'], axis=1)
+    df = df.drop(["Ticket", "Cabin"], axis=1)
     # Remove NaN values
     df = df.dropna()
     return df
@@ -50,33 +50,41 @@ def gender_class_breakdown(df):
     # value_counts() so it it can be easily plotted as a bar graph. this is repeated for each gender
     # class pair.
     ax1 = fig.add_subplot(141)
-    female_highclass = df.Survived[df.Sex == 'female'][df.Pclass != 3].value_counts()
-    female_highclass.plot(kind='bar', label='female, highclass', color='#FA2479', alpha=alpha_level)
+    female_highclass = df.Survived[df.Sex == "female"][df.Pclass != 3].value_counts()
+    female_highclass.plot(
+        kind="bar", label="female, highclass", color="#FA2479", alpha=alpha_level
+    )
     ax1.set_xticklabels(["Survived", "Died"], rotation=0)
     ax1.set_xlim(-1, len(female_highclass))
-    plt.title("Who Survived? with respect to Gender and Class");
-    plt.legend(loc='best')
+    plt.title("Who Survived? with respect to Gender and Class")
+    plt.legend(loc="best")
 
     ax2 = fig.add_subplot(142, sharey=ax1)
-    female_lowclass = df.Survived[df.Sex == 'female'][df.Pclass == 3].value_counts()
-    female_lowclass.plot(kind='bar', label='female, low class', color='pink', alpha=alpha_level)
+    female_lowclass = df.Survived[df.Sex == "female"][df.Pclass == 3].value_counts()
+    female_lowclass.plot(
+        kind="bar", label="female, low class", color="pink", alpha=alpha_level
+    )
     ax2.set_xticklabels(["Died", "Survived"], rotation=0)
     ax2.set_xlim(-1, len(female_lowclass))
-    plt.legend(loc='best')
+    plt.legend(loc="best")
 
     ax3 = fig.add_subplot(143, sharey=ax1)
-    male_lowclass = df.Survived[df.Sex == 'male'][df.Pclass == 3].value_counts()
-    male_lowclass.plot(kind='bar', label='male, low class', color='lightblue', alpha=alpha_level)
+    male_lowclass = df.Survived[df.Sex == "male"][df.Pclass == 3].value_counts()
+    male_lowclass.plot(
+        kind="bar", label="male, low class", color="lightblue", alpha=alpha_level
+    )
     ax3.set_xticklabels(["Died", "Survived"], rotation=0)
     ax3.set_xlim(-1, len(male_lowclass))
-    plt.legend(loc='best')
+    plt.legend(loc="best")
 
     ax4 = fig.add_subplot(144, sharey=ax1)
-    male_highclass = df.Survived[df.Sex == 'male'][df.Pclass != 3].value_counts()
-    male_highclass.plot(kind='bar', label='male, highclass', alpha=alpha_level, color='steelblue')
+    male_highclass = df.Survived[df.Sex == "male"][df.Pclass != 3].value_counts()
+    male_highclass.plot(
+        kind="bar", label="male, highclass", alpha=alpha_level, color="steelblue"
+    )
     ax4.set_xticklabels(["Died", "Survived"], rotation=0)
     ax4.set_xlim(-1, len(male_highclass))
-    plt.legend(loc='best')
+    plt.legend(loc="best")
 
     return fig
 
@@ -86,25 +94,31 @@ def gender_proportion_breakdown(df):
     a = 0.65
     # Step 1
     ax1 = fig.add_subplot(141)
-    df.Survived.value_counts().plot(kind='bar', color="blue", alpha=a)
+    df.Survived.value_counts().plot(kind="bar", color="blue", alpha=a)
     ax1.set_xlim(-1, len(df.Survived.value_counts()))
     plt.title("Step. 1")
 
     # Step 2
     ax2 = fig.add_subplot(142, sharey=ax1)
-    df.Survived[df.Sex == 'male'].value_counts().plot(kind='bar', label='Male')
-    df.Survived[df.Sex == 'female'].value_counts().plot(kind='bar', color='#FA2379', label='Female')
+    df.Survived[df.Sex == "male"].value_counts().plot(kind="bar", label="Male")
+    df.Survived[df.Sex == "female"].value_counts().plot(
+        kind="bar", color="#FA2379", label="Female"
+    )
     ax2.set_xlim(-1, 2)
     plt.title("Step. 2 \nWho Survived? with respect to Gender.")
-    plt.legend(loc='best')
+    plt.legend(loc="best")
 
     ax3 = fig.add_subplot(143, sharey=ax1)
-    (df.Survived[df.Sex == 'male'].value_counts() / float(df.Sex[df.Sex == 'male'].size)).plot(kind='bar', label='Male')
-    (df.Survived[df.Sex == 'female'].value_counts() / float(df.Sex[df.Sex == 'female'].size)).plot(kind='bar',
-                                                                                                   color='#FA2379',
-                                                                                                   label='Female')
+    (
+        df.Survived[df.Sex == "male"].value_counts()
+        / float(df.Sex[df.Sex == "male"].size)
+    ).plot(kind="bar", label="Male")
+    (
+        df.Survived[df.Sex == "female"].value_counts()
+        / float(df.Sex[df.Sex == "female"].size)
+    ).plot(kind="bar", color="#FA2379", label="Female")
     ax3.set_xlim(-1, 2)
     plt.title("Who Survied proportionally?")
-    plt.legend(loc='best')
+    plt.legend(loc="best")
 
     return fig

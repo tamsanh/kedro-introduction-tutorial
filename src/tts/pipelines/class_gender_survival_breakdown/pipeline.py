@@ -32,9 +32,7 @@ generated using Kedro 0.16.4
 """
 
 from kedro.pipeline import Pipeline, node
-from .nodes import clean_raw_data, \
-    gender_class_breakdown, \
-    gender_proportion_breakdown
+from .nodes import clean_raw_data, gender_class_breakdown, gender_proportion_breakdown
 
 
 def replace_me(x):
@@ -42,20 +40,14 @@ def replace_me(x):
 
 
 def create_pipeline(**kwargs):
-    return Pipeline([
-        node(
-            clean_raw_data,
-            inputs='titanic_training_data',
-            outputs='clean_titanic_training_data',
-        ),
-        node(
-            replace_me,
-            inputs='REPLACE_ME',
-            outputs=None,
-        ),
-        node(
-            replace_me,
-            inputs='REPLACE_ME',
-            outputs=None,
-        )
-    ])
+    return Pipeline(
+        [
+            node(
+                clean_raw_data,
+                inputs="titanic_training_data",
+                outputs="clean_titanic_training_data",
+            ),
+            node(replace_me, inputs="REPLACE_ME", outputs=None, name="REPLACE_ME1"),
+            node(replace_me, inputs="REPLACE_ME", outputs=None, name="REPLACE_ME2"),
+        ]
+    )

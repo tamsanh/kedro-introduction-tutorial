@@ -37,10 +37,12 @@ from .nodes import survival_breakdown
 
 
 def create_pipeline(**kwargs):
-    return Pipeline([
-        node(
-            survival_breakdown,
-            inputs="REPLACE_ME",
-            outputs="survival_breakdown_chart"
-        )
-    ])
+    return Pipeline(
+        [
+            node(
+                survival_breakdown,
+                inputs="REPLACE_ME",
+                outputs="survival_breakdown_chart",
+            )
+        ]
+    )

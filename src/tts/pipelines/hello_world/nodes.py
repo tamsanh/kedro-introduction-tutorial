@@ -42,6 +42,6 @@ def hello_world():
     Prints 'Hello World!'
     :return: str
     """
-    output = 'Hello World!'
+    output = "Hello World!"
     logger.info(output)
     return output

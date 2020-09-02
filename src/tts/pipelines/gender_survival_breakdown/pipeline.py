@@ -37,10 +37,6 @@ from tts.pipelines.gender_survival_breakdown.nodes import gender_survival_breakd
 
 
 def create_pipeline(**kwargs):
-    return Pipeline([
-        node(
-            gender_survival_breakdown,
-            inputs="titanic_training_data",
-            outputs=None,
-        )
-    ])
+    return Pipeline(
+        [node(gender_survival_breakdown, inputs="titanic_training_data", outputs=None)]
+    )
