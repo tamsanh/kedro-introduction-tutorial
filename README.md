@@ -353,6 +353,10 @@ kedro viz
 
 Your default webbrowser will open up, and you'll be greeted by a lovely visualization of your pipeline!
 
+If you followed the tutorial thus far, you should get an output that looks something like this (this picture does not include the final created pipeline).
+
+![Kedro Viz](images/kedro_viz.png)
+
 ## Congrats!
 
 You now know the basics of using kedro, and are equipped to go on to make some great things. Thank you for joining me on this journey!
