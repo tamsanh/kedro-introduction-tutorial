@@ -1,4 +1,4 @@
-# Kedro Tutorial - Titanic Starter
+# Kedro Introduction Tutorial
 
 ## Overview
 
@@ -6,16 +6,19 @@ This project helps understand the basics of kedro by introducing you, in a step 
 
 By following along with this project, you will understand the concepts of **nodes**, **pipelines**, and **datasets**, and how to leverage them to create collaborative, scalable, production-ready data pipelines.
 
-Follow along with this `README.md` file as it explains kedro's concepts.
-
 #### Credits
 
-A huge thank you to @agconti, whose notebook "Titanic" this tutorial is based directly off of. Please see his notebook here: [Titanic.ipynb](https://nbviewer.jupyter.org/github/agconti/kaggle-titanic/blob/master/Titanic.ipynb)
+A huge thank you to [@agconti](https://github.com/agconti), whose notebook this tutorial is heavily based on. Checkout his notebook here: [Titanic.ipynb](https://nbviewer.jupyter.org/github/agconti/kaggle-titanic/blob/master/Titanic.ipynb)
 
 Another thank you to [Kaggle.com](kaggle.com), who was the provider of this titanic dataset in the competition [Titanic: Machine Learning from Disaster]()
 
 ## Tutorial
 
+To get started with this tutorial, make sure to first clone it using
+
+```bash
+git clone https://github.com/tamsanh/kedro-introduction-tutorial
+```
 
 ### Part 0: Installing Kedro
 
@@ -46,14 +49,14 @@ source !$/bin/activate
 
 In order to interact with kedro, we use the kedro command line interface (CLI). Let's first get acquainted with the most important command, the `kedro run` command.
 
-The `kedro run` command allows us to run our pipelines. But where are our pipelines? Traditionally, they can be found inside of the `src/{project_name}/pipeline.py` file (in our case, our project name is `tts`).
+The `kedro run` command allows us to run our pipelines. But where are our pipelines? Traditionally, they can be found inside of the `src/{project_name}/pipeline.py` file (in our case, our project name is `kit`).
 
 Looking inside of this file, we find a function called `create_pipelines`. By default, it is this function that is used by kedro to create the pipelines for our run. Notice the dictionary being returned, at the bottom. This dictionary is what determines the available pipelines for us to run.
 
 There's one pipeline in particular we're going to try running, and that's the `hello-world` pipeline. Any keys in the dictionary being returned are available to the `kedro run` command.
 
 ```python
-# src/tts/pipeline.py
+# src/kit/pipeline.py
 
 def create_pipelines(**kwargs):
 ...
@@ -64,7 +67,7 @@ def create_pipelines(**kwargs):
     }
 ```
 
-*Note: Notice that the value is actually being created inside of the module called `hello_world`, which exists inside of `src/tts/pipelines/`. Putting the pipeline implementation inside of the `pipelines` folder is a standard convention, to help encourage pipeline reuse.*
+*Note: Notice that the value is actually being created inside of the module called `hello_world`, which exists inside of `src/kit/pipelines/`. Putting the pipeline implementation inside of the `pipelines` folder is a standard convention, to help encourage pipeline reuse.*
 
 #### Run the Pipeline
 
@@ -78,9 +81,9 @@ kedro run --pipeline hello-world
 You should get an output similar to this
 
 ```bash
-2020-08-31 09:48:07,098 - root - INFO - ** Kedro project kedro-tutorial-titanic-starter
+2020-08-31 09:48:07,098 - root - INFO - ** Kedro project kedro-introducgtion-tutorial
 2020-08-31 09:48:07,903 - kedro.pipeline.node - INFO - Running node: hello_world(None) -> [hello-output]
-2020-08-31 09:48:07,903 - tts.pipelines.hello_world.nodes - INFO - Hello World!
+2020-08-31 09:48:07,903 - kit.pipelines.hello_world.nodes - INFO - Hello World!
 2020-08-31 09:48:07,904 - kedro.io.data_catalog - INFO - Saving data to `hello-output` (MemoryDataSet)...
 2020-08-31 09:48:07,904 - kedro.runner.sequential_runner - INFO - Completed 1 out of 1 tasks
 2020-08-31 09:48:07,904 - kedro.runner.sequential_runner - INFO - Pipeline execution completed successfully.
@@ -271,7 +274,7 @@ kedro pipeline create [INSERT PIPELINE NAME]
 
 Kedro will create a pipeline for us inside of the `pipelines` folder in our project, named with whatever name we give it.
 
-Let's create a pipeline called "final_pipeline" with the command `kedro pipeline create final_pipeline`. We're going to be using a premade node for this pipeline, which can be find inside of `tts/pipelines/final_node.py`.
+Let's create a pipeline called "final_pipeline" with the command `kedro pipeline create final_pipeline`. We're going to be using a premade node for this pipeline, which can be find inside of `kit/pipelines/final_node.py`.
 Inside of that file, we have the function `final_pipeline_tutorial_node` which we can add to the pipeline as a node.
 
 If you have been following the tutorial so far, you should have all the skills you need to get the output of this node on your own!

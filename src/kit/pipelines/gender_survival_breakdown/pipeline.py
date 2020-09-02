@@ -25,7 +25,18 @@
 #
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""kedro-tutorial-titanic-starter
+
+"""
+This is a boilerplate pipeline 'gender_survival_breakdown'
+generated using Kedro 0.16.4
 """
 
-__version__ = "0.1"
+from kedro.pipeline import Pipeline, node
+
+from .nodes import gender_survival_breakdown
+
+
+def create_pipeline(**kwargs):
+    return Pipeline(
+        [node(gender_survival_breakdown, inputs="titanic_training_data", outputs=None)]
+    )

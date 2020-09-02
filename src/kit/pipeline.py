@@ -33,7 +33,7 @@ from typing import Dict
 
 from kedro.pipeline import Pipeline
 
-from tts.pipelines import (
+from kit.pipelines import (
     hello_world,
     survival_breakdown,
     gender_survival_breakdown,

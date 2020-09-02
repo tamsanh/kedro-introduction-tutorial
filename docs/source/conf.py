@@ -29,7 +29,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# tts documentation build
+# kit documentation build
 # configuration file, created by sphinx-quickstart.
 #
 # This file is execfile()d with the current directory set to its
@@ -50,11 +50,11 @@ import re
 from kedro.framework.cli.utils import find_stylesheets
 from recommonmark.transform import AutoStructify
 
-from tts import __version__ as release
+from kit import __version__ as release
 
 # -- Project information -----------------------------------------------------
 
-project = "tts"
+project = "kit"
 copyright = "2020, QuantumBlack Visual Analytics Limited"
 author = "QuantumBlack"
 
@@ -177,8 +177,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "tts.tex",
-        "tts Documentation",
+        "kit.tex",
+        "kit Documentation",
         "QuantumBlack",
         "manual",
     )
@@ -191,8 +191,8 @@ latex_documents = [
 man_pages = [
     (
         master_doc,
-        "tts",
-        "tts Documentation",
+        "kit",
+        "kit Documentation",
         [author],
         1,
     )
@@ -206,11 +206,11 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "tts",
-        "tts Documentation",
+        "kit",
+        "kit Documentation",
         author,
-        "tts",
-        "Project tts codebase.",
+        "kit",
+        "Project kit codebase.",
         "Data-Science",
     )
 ]
