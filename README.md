@@ -212,6 +212,69 @@ As you can see, kedro makes it really easy to inject new datasets to both load a
 
 Now that we understand how to run pipelines and how to create catalog datasets, let's focus on connecting nodes together in a pipeline.
 
-The pipeline in question this time is going to be the `class_gender_survival_breakdown` pipeline.
+#### Understanding Node Reuse
 
-You'll notice that the steps are similar to the previous work.
+In this section, we're going to demonstrate one of the great aspects of kedro: Reusability. So far, we haven't done much that's different from a normal data pipeline, as our functions have been relatively self-contained.
+That'll change in this section, when we begin to connect nodes together in a manner that allows us to take advantage of inputs and outputs.
+
+Basically, we are going to bifurcate the output of one node into two nodes, thereby allowing the two downstream nodes to take advantage of the work done in the first node. You can refer to the following illustration demonstrating this relationship.
+
+The point here being that the first node does work that the second and third node BOTH get to take advantage of. This means that, in a kedro pipeline, if someone writes a node, anyone else who uses that pipeline can also take advantage of that node.
+This reduces labor overall and accelerates pipeline development.
+
+![Node Reuse](images/node-reuse.jpg)
+
+#### Modifying the Pipeline
+
+The pipeline in question this time is going to be the `class_gender_survival_breakdown` pipeline. It contains three nodes that we'll be using. Opening up the `pipeline.py` file shows us what we have and what we're missing.
+```python
+from .nodes import clean_raw_data, \
+    gender_class_breakdown, \
+    gender_proportion_breakdown
+
+
+def create_pipeline(**kwargs):
+    return Pipeline([
+        node(
+            clean_raw_data,
+            inputs='titanic_training_data',
+            outputs='clean_titanic_training_data',
+        ),
+        node(
+            replace_me,
+            inputs='REPLACE_ME',
+            outputs=None,
+        ),
+        node(
+            replace_me,
+            inputs='REPLACE_ME',
+            outputs=None,
+        )
+    ])
+```
+
+All we need to do is add in our two functions `gender_class_breakdown` and `gender_proportion_breakdown` to the pipeline.
+
+This can be done by replacing the `replace_me` functions with the appropriate functions, as well as add in the appropriate `inputs` and `outputs`.
+
+For the `inputs`, make sure to use the output of the `clean_raw_data` function, which is the `clean_titanic_training_data`. *This is exactly how reuse is done.*
+
+There are already pre-made catalog entries for these two nodes, which are `gender_class_breakdown_chart` and `gender_proportion_breakdown_chart`, which we can use.
+
+Once that is done, run the pipeline again with `kedro run --pipeline class-gender-survival-breakdown`, and we should get two more charts that look like the following.
+
+![Class Gender Breakdown](images/gender_class_breakdown_chart.png)
+![Gender Proportion Breakdown](images/gender_proportion_breakdown_chart.png)
+
+
+### Part 5: Creating a Pipeline from Scratch
+
+For the final portion of the pipeline part of the tutorial, we've just got one thing left to do: Let's create a pipeline from scratch.
+
+The task is actually not too difficult. Thanks to kedro. Built into the CLI is an option for pipeline creation. Using the CLI, we just do the following command.
+
+```bash
+kedro pipeline create [INSERT PIPELINE NAME]
+```
+
+Kedro will create a pipeline for us inside of the `pipelines` folder in our project, named with whatever name we give it.

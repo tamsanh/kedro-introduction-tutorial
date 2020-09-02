@@ -3,14 +3,31 @@
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://kedro.readthedocs.io/en/stable/04_user_guide/04_data_catalog.html
 
+##################################
+# DO NOT MODIFY
+# Fake dataset for demonstration purposes
 REPLACE_ME:
   type: pandas.CSVDataSet
   filepath: data/01_raw/empty.csv
+##################################
+
 
 titanic_training_data:
   type: pandas.CSVDataSet
   filepath: data/01_raw/train.csv
 
+
+##################################
+# Chart Outputs
 survival_breakdown_chart:
   type: matplotlib.MatplotlibWriter
   filepath: data/08_reporting/survival_breakdown.png
+
+gender_class_breakdown_chart:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/gender_class_breakdown_chart.png
+
+gender_proportion_breakdown_chart:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/gender_proportion_breakdown_chart.png
+##################################
