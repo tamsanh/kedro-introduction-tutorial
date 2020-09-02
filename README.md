@@ -166,7 +166,7 @@ The catalog entry is located inside of the `conf/base/catalog.yml`, and if you o
 
 For our case, the chart file in question has the following catalog entry.
 
-```python
+```yaml
 survival_breakdown_chart:
   type: matplotlib.MatplotlibWriter
   filepath: data/08_reporting/survival_breakdown.png
@@ -183,5 +183,35 @@ Neat! It's a simple node that outputs a simple result.
 
 ### Part 3: Creating Our Own DataSet
 
-In this section, we're going to create a new dataset to hookup to a new pipeline, so that we can get even more output.
+In this section, we're going to create a new dataset to hookup to a new pipeline, to retrieve its output.
 
+Let's start by running the pipeline called `gender-survival-breakdown`.
+
+The pipeline seems to run fine, but there's a problem: *Where does the output get saved?*
+
+If we take a closer look at the pipeline, you'll see that the output is a `None`. This is a completely valid output, and it tells kedro to ignore the output data.
+However, we want to grab that output, so let's create a dataset in the catalog to capture that output.
+
+Let's use the following dataset definition, and replace the `None` with our new dataset definition.
+
+```yaml
+gender_survival_breakdown_chart:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/gender_survival_breakdown.png
+```
+
+When we rerun the pipeline, we should be able to find the new chart within the `08_reporting` folder, in our data directory! The chart should look something like the following.
+
+![Gender Survival Breakdown](images/gender_survival_breakdown.png)
+
+As you can see, kedro makes it really easy to inject new datasets to both load and save data.
+
+**Note:** By default, if there exists a parameter for `inputs` or `outputs` that does not have an entry in the catalog, that is totally fine. By default, kedro will create a `MemoryDataSet`, meaning the data gets saved to memory.
+
+### Part 4: Connecting Nodes in a Pipeline
+
+Now that we understand how to run pipelines and how to create catalog datasets, let's focus on connecting nodes together in a pipeline.
+
+The pipeline in question this time is going to be the `class_gender_survival_breakdown` pipeline.
+
+You'll notice that the steps are similar to the previous work.

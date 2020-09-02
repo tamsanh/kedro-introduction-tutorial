@@ -25,31 +25,12 @@
 #
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-"""Construction of the master pipeline.
 """
+This is a boilerplate test file for pipeline 'gender_survival_breakdown'
+generated using Kedro 0.16.4.
+Please add your pipeline tests here.
 
-from typing import Dict
-
-from kedro.pipeline import Pipeline
-
-from tts.pipelines import hello_world, survival_breakdown, gender_survival_breakdown
-
-
-def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
-    """Create the project's pipeline.
-
-    Args:
-        kwargs: Ignore any additional arguments added in the future.
-
-    Returns:
-        A mapping from a pipeline name to a ``Pipeline`` object.
-
-    """
-
-    return {
-        "survival-breakdown": survival_breakdown.create_pipeline(),
-        "gender-survival-breakdown": gender_survival_breakdown.create_pipeline(),
-        "hello-world": hello_world.create_pipeline(),
-        "__default__": Pipeline([]),
-    }
+Kedro recommends using `pytest` framework, more info about it can be found
+in the official documentation:
+https://docs.pytest.org/en/latest/getting-started.html
+"""
