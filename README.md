@@ -26,7 +26,7 @@ Kedro may be installed simply by using `pip` and the Python Package Index.
 
 ```bash
 # Console
-pip install kedro kedro[pandas] matplotlib
+pip install kedro kedro[pandas] matplotlib kedro-viz
 ```
 
 **Note**: I recommend to use a virtual environment, or conda environment for the purposes of this tutorial.
@@ -310,7 +310,7 @@ For the `[PATH TO PROJECT ROOT]`, this can be relative or absolute.
 
 
 ```python
-%run'[PATH TO PROJECT ROOT]/.ipython/profile_default/startup/00-kedro-init.py'
+%run '[PATH TO PROJECT ROOT]/.ipython/profile_default/startup/00-kedro-init.py'
 ```
 
 
