@@ -28,6 +28,5 @@ gender_proportion_breakdown_chart:
 
 # Fake dataset for demonstration purposes
 REPLACE_ME:
-  type: pandas.CSVDataSet
-  filepath: data/01_raw/empty.csv
+  type: kit.io.ReplaceableDataSet
 ##################################
