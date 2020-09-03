@@ -26,17 +26,19 @@ Kedro may be installed simply by using `pip` and the Python Package Index.
 
 ```bash
 # Console
-pip install kedro matplotlib
+pip install kedro kedro[pandas] matplotlib
 ```
 
-**Optional** - If you prefer, you may use a virtual environment, or conda environment for the purposes of this tutorial.
+**Note**: I recommend to use a virtual environment, or conda environment for the purposes of this tutorial.
 
+#### Setting up Conda
 ```bash
 # With Conda
 conda create python=3.8 --name kedro-titanic-tutorial-conda 
 conda activate !$
 ```
 
+#### Setting up Virtual Environment
 ```bash
 # With Virtual Environment (MacOSX)
 virtualenv kedro-titanic-tutorial-venv
