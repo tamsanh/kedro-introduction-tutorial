@@ -26,7 +26,7 @@ Kedro may be installed simply by using `pip` and the Python Package Index.
 
 ```bash
 # Console
-pip install kedro
+pip install kedro matplotlib
 ```
 
 **Optional** - If you prefer, you may use a virtual environment, or conda environment for the purposes of this tutorial.
