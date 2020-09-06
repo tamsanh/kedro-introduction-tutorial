@@ -20,30 +20,36 @@ To get started with this tutorial, make sure to first clone it using
 git clone https://github.com/tamsanh/kedro-introduction-tutorial
 ```
 
-### Part 0: Installing Kedro
+### Part 0: Getting Kedro
 
-Kedro may be installed simply by using `pip` and the Python Package Index.
+#### Python Environment
 
-```bash
-# Console
-pip install kedro kedro[pandas] kedro-viz scipy matplotlib
-```
+I recommend to use a virtual environment, or conda environment for the purposes of this tutorial, and instructions to set that up are included below, for your convenience.
 
-**Note**: I recommend to use a virtual environment, or conda environment for the purposes of this tutorial.
-
-#### Setting up Conda
+##### Setting up Conda
 ```bash
 # With Conda
 conda create python=3.8 --name kedro-titanic-tutorial-conda 
 conda activate !$
 ```
 
-#### Setting up Virtual Environment
+##### Setting up Virtual Environment
 ```bash
 # With Virtual Environment (MacOSX)
 virtualenv kedro-titanic-tutorial-venv
 source !$/bin/activate
 ```
+
+#### Installing Kedro
+
+Kedro may be installed simply by using `pip` and the Python Package Index. For the purposes of this project, we will be installing all of the following packages.
+
+```bash
+# Console
+pip install kedro kedro[pandas] kedro-viz scipy matplotlib
+```
+
+**Note**: To reduce package size, kedro has split its package into multiple, smaller packages, which can be installed with `kedro[PACKAGE_NAME]`, where `PACKAGE_NAME` is the subpackage one wishes to include.
 
 ### Part 1: Hello World
 
