@@ -49,3 +49,5 @@ def final_pipeline_tutorial_node(df):
     ax5.set_xlim(-1, len(df.Embarked.value_counts()))
     # specifies the parameters of our graphs
     plt.title("Passengers per boarding location")
+
+    return fig
