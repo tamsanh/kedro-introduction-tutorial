@@ -26,7 +26,7 @@ Kedro may be installed simply by using `pip` and the Python Package Index.
 
 ```bash
 # Console
-pip install kedro kedro[pandas] matplotlib kedro-viz
+pip install kedro kedro[pandas] kedro-viz scipy matplotlib
 ```
 
 **Note**: I recommend to use a virtual environment, or conda environment for the purposes of this tutorial.
@@ -140,7 +140,7 @@ def create_pipeline():
 
 The `node` function requires three arguments in order to create a node. The first is a function, representing the function the node is to run, the second is the inputs to the function and the third is the outputs of that function. Kedro will take the input data as pass it to the function directly to the arguments of the function, as well as take any output of the function and pass it to output datasets.
 
-### Connecting our DataSet to our Node
+#### Connecting our DataSet to our Node
 
 For this exercise, we're going to be connecting the `titanic_training_data` DataSet to the `survival_breakdown` pipeline.
 
@@ -160,7 +160,7 @@ def create_pipeline(**kwargs):
 
 And now let's go ahead and run the `survival-breakdown` pipeline with `kedro run --pipeline survival-breakdown`.
 
-### Reading the Catalog
+#### Reading the Catalog
 
 When the pipeline completes, we will have the final output chart. But where is this chart located?
 
@@ -185,6 +185,46 @@ Opening up our file, we can see it should look something like this:
 ![Survival Breakdown](images/survival_breakdown.png)
 
 Neat! It's a simple node that outputs a simple result.
+
+#### About Parameters
+
+Kedro comes with great support for parameterizing your nodes.
+Normally, parameters are haphazardly hard coded, with little documentation.
+
+Kedro turns this around by allowing users to put parameters into the `parameter.yml` file, located in `conf/base/` configuration folder.
+
+Any key/value pair that is added to this file will be accessible in the pipeline using the special `params:` prefix.
+The data from the value will then be passed to the function just as any DataSet value would be.
+
+Take a look at the following example to get the gist.
+
+```yaml
+# parameters.yml
+
+favorite_soda: coke
+
+# pipeline.py
+def print_favorite_soda(fav):
+  print(f'My favorite soda is "${fav}"!')
+
+def create_pipelines():
+
+return Pipeline([
+    node(
+      print_favorite_soda,
+      inputs='params:favorite_soda',
+      outputs=None
+    )
+])
+
+# Console
+
+My favorite soda is "coke"!
+
+```
+
+As you can see, the value for the parameter `favorite_soda` is being passed into the `print_favorite_soda` function. With this method, you can manage all of your parameters without worry. See the [kedro documentation on parameters](https://kedro.readthedocs.io/en/stable/04_kedro_project_setup/02_configuration.html?highlight=parameters#parameters) for more details.
+
 
 ### Part 3: Creating Our Own DataSet
 
