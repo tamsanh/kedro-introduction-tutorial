@@ -149,7 +149,7 @@ html_show_sourcelink = False
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "ttsdoc"
+htmlhelp_basename = "kitdoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
