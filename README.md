@@ -1,5 +1,8 @@
 # Kedro Introduction Tutorial
 
+Checkout the Video Here: [The Complete Beginner's Guide to Kedro - How to use Kedro 0.16.4
+](https://www.youtube.com/watch?v=x97ChYDd12U). Note: `pipeline.py` has been changed to `hooks.py` in 0.16.5. This has been updated in this repository.
+
 ## Overview
 
 This project helps understand the basics of kedro by introducing you, in a step by step fashion, to its different concepts and tools.
@@ -57,22 +60,24 @@ pip install kedro kedro[pandas] kedro-viz scipy matplotlib
 
 In order to interact with kedro, we use the kedro command line interface (CLI). Let's first get acquainted with the most important command, the `kedro run` command.
 
-The `kedro run` command allows us to run our pipelines. But where are our pipelines? Traditionally, they can be found inside of the `src/{project_name}/pipeline.py` file (in our case, our project name is `kit`).
+The `kedro run` command allows us to run our pipelines. But where are our pipelines? Traditionally, they can be found inside of the `src/{project_name}/hooks.py` file (in our case, our project name is `kit`).
 
 Looking inside of this file, we find a function called `create_pipelines`. By default, it is this function that is used by kedro to create the pipelines for our run. Notice the dictionary being returned, at the bottom. This dictionary is what determines the available pipelines for us to run.
 
 There's one pipeline in particular we're going to try running, and that's the `hello-world` pipeline. Any keys in the dictionary being returned are available to the `kedro run` command.
 
 ```python
-# src/kit/pipeline.py
+# src/kit/hooks.py
+class ProjectHooks:
+    @hook_impl
+    def register_pipelines(self) -> Dict[str, Pipeline]:
+        ...
+        return {
+            ...
+            "hello-world": hello_world.create_pipeline(),
+            ...
+        }
 
-def create_pipelines(**kwargs):
-...
-    return {
-        ...
-        "hello-world": hello_world.create_pipeline(),
-        ...
-    }
 ```
 
 *Note: Notice that the value is actually being created inside of the module called `hello_world`, which exists inside of `src/kit/pipelines/`. Putting the pipeline implementation inside of the `pipelines` folder is a standard convention, to help encourage pipeline reuse.*
