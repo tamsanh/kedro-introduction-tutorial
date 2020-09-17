@@ -29,14 +29,14 @@ I recommend to use a virtual environment, or conda environment for the purposes 
 ##### Setting up Conda
 ```bash
 # With Conda
-conda create python=3.8 --name kedro-titanic-tutorial-conda 
+conda create python=3.8 --name kedro-tutorial-conda
 conda activate !$
 ```
 
 ##### Setting up Virtual Environment
 ```bash
 # With Virtual Environment (MacOSX)
-virtualenv kedro-titanic-tutorial-venv
+virtualenv venv
 source !$/bin/activate
 ```
 
