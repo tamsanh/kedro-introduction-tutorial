@@ -51,7 +51,15 @@ def create_pipeline(**kwargs):
                 inputs="titanic_training_data",
                 outputs="clean_titanic_training_data",
             ),
-            node(replace_me1, inputs="REPLACE_ME", outputs=None),
-            node(replace_me2, inputs="REPLACE_ME", outputs=None),
+            node(
+                gender_class_breakdown,
+                inputs="clean_titanic_training_data",
+                outputs="gender_class_breakdown_chart",
+            ),
+            node(
+                gender_proportion_breakdown,
+                inputs="clean_titanic_training_data",
+                outputs="gender_proportion_breakdown_chart",
+            ),
         ]
     )

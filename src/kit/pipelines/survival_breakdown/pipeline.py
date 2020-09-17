@@ -41,7 +41,7 @@ def create_pipeline(**kwargs):
         [
             node(
                 survival_breakdown,
-                inputs="REPLACE_ME",
+                inputs="titanic_training_data",
                 outputs="survival_breakdown_chart",
             )
         ]

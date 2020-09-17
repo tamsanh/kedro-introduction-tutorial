@@ -8,6 +8,15 @@ titanic_training_data:
   type: pandas.CSVDataSet
   filepath: data/01_raw/train.csv
 
+gender_survival_breakdown_chart:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/gender_survival_breakdown.png
+
+
+final_pipeline_chart:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/final_pipeline_chart.png
+
 
 ##################################
 # NO NEED TO MODIFY BELOW THIS LINE

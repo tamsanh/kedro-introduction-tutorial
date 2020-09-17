@@ -25,47 +25,9 @@
 #
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-"""Construction of the master pipeline.
+"""
+This is a boilerplate pipeline 'final_pipeline'
+generated using Kedro 0.16.4
 """
 
-from typing import Dict
-
-from kedro.pipeline import Pipeline
-
-from kit.pipelines import (
-    hello_world,
-    survival_breakdown,
-    gender_survival_breakdown,
-    class_gender_survival_breakdown,
-    final_pipeline,
-)
-
-
-def create_pipelines(**kwargs) -> Dict[str, Pipeline]:
-    """Create the project's pipeline.
-
-    Args:
-        kwargs: Ignore any additional arguments added in the future.
-
-    Returns:
-        A mapping from a pipeline name to a ``Pipeline`` object.
-
-    """
-
-    return {
-        "class-gender-survival-breakdown": class_gender_survival_breakdown.create_pipeline(),
-        "survival-breakdown": survival_breakdown.create_pipeline(),
-        "gender-survival-breakdown": gender_survival_breakdown.create_pipeline(),
-        "hello-world": hello_world.create_pipeline(),
-        "final-pipeline": final_pipeline.create_pipeline(),
-        "__default__": Pipeline(
-            [
-                class_gender_survival_breakdown.create_pipeline()
-                + survival_breakdown.create_pipeline()
-                + gender_survival_breakdown.create_pipeline()
-                + hello_world.create_pipeline()
-                + final_pipeline.create_pipeline()
-            ]
-        ),
-    }
+from .pipeline import create_pipeline  # NOQA

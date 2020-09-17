@@ -38,5 +38,11 @@ from .nodes import gender_survival_breakdown
 
 def create_pipeline(**kwargs):
     return Pipeline(
-        [node(gender_survival_breakdown, inputs="titanic_training_data", outputs=None)]
+        [
+            node(
+                gender_survival_breakdown,
+                inputs="titanic_training_data",
+                outputs="gender_survival_breakdown_chart",
+            )
+        ]
     )
