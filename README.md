@@ -61,7 +61,15 @@ pip install kedro[pandas] # Pandas is installed separately due a bug with pip.
 
 In order to interact with kedro, we use the kedro command line interface (CLI). Let's first get acquainted with the most important command, the `kedro run` command.
 
-The `kedro run` command allows us to run our pipelines. But where are our pipelines? Traditionally, they can be found inside of the `src/{project_name}/hooks.py` file (in our case, our project name is `kit`).
+The `kedro run` command allows us to run our pipelines. But what pipelines exist to run? Using the following command, we can list all the pipelines that are available.
+
+```
+kedro pipeline list
+```
+
+This will output a list of all pipelines available to us. But where are they instantiated?
+
+Traditionally, they can be found inside of the `src/{project_name}/hooks.py` file (in our case, our project name is `kit`).
 
 Looking inside of this file, we find a function called `create_pipelines`. By default, it is this function that is used by kedro to create the pipelines for our run. Notice the dictionary being returned, at the bottom. This dictionary is what determines the available pipelines for us to run.
 
@@ -153,6 +161,14 @@ def create_pipeline():
 The `node` function requires three arguments in order to create a node. The first is a function, representing the function the node is to run, the second is the inputs to the function and the third is the outputs of that function. Kedro will take the input data as pass it to the function directly to the arguments of the function, as well as take any output of the function and pass it to output datasets.
 
 #### Connecting our DataSet to our Node
+
+What datasets are available for our pipeline? Using the kedro CLI, we can easily view all the catalog data that is available to us by running the following command.
+
+```
+kedro catalog list
+``
+
+This will show us an entire list of the kedro catalog items. Listed are all the datasets that we can pass into the `inputs` and `outputs` parameters of our nodes, to connect nodes together.
 
 For this exercise, we're going to be connecting the `titanic_training_data` DataSet to the `survival_breakdown` pipeline.
 
