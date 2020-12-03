@@ -166,7 +166,7 @@ What datasets are available for our pipeline? Using the kedro CLI, we can easily
 
 ```
 kedro catalog list
-``
+```
 
 This will show us an entire list of the kedro catalog items. Listed are all the datasets that we can pass into the `inputs` and `outputs` parameters of our nodes, to connect nodes together.
 
@@ -227,28 +227,26 @@ The data from the value will then be passed to the function just as any DataSet 
 Take a look at the following example to get the gist.
 
 ```yaml
-# parameters.yml
-
-favorite_soda: coke
-
-# pipeline.py
+# nodes.py
 def print_favorite_soda(fav):
   print(f'My favorite soda is "${fav}"!')
 
+# pipeline.py
 def create_pipelines():
-
-return Pipeline([
+  return Pipeline([
     node(
       print_favorite_soda,
       inputs='params:favorite_soda',
       outputs=None
     )
-])
+  ])
+
+
+# parameters.yml
+favorite_soda: coke
 
 # Console
-
 My favorite soda is "coke"!
-
 ```
 
 As you can see, the value for the parameter `favorite_soda` is being passed into the `print_favorite_soda` function. With this method, you can manage all of your parameters without worry. See the [kedro documentation on parameters](https://kedro.readthedocs.io/en/stable/04_kedro_project_setup/02_configuration.html?highlight=parameters#parameters) for more details.
@@ -300,6 +298,7 @@ This reduces labor overall and accelerates pipeline development.
 #### Modifying the Pipeline
 
 The pipeline in question this time is going to be the `class_gender_survival_breakdown` pipeline. It contains three nodes that we'll be using. Opening up the `pipeline.py` file shows us what we have and what we're missing.
+
 ```python
 from .nodes import clean_raw_data, \
     gender_class_breakdown, \
@@ -366,7 +365,7 @@ All of these methods will give you access to the catalog and context.
 
 If you start jupyter with kedro, you will automatically get access to the `catalog` and the `context`.
 
-```
+```bash
 kedro jupyter notebook
 ```
 
@@ -377,7 +376,7 @@ If you already have a jupyter notebook started up, you can simply call the init 
 For the `[PATH TO PROJECT ROOT]`, this can be relative or absolute.
 
 
-```python
+```
 %run '[PATH TO PROJECT ROOT]/.ipython/profile_default/startup/00-kedro-init.py'
 ```
 
