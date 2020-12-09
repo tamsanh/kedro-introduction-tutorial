@@ -145,17 +145,17 @@ If the previous illustration were to be represented in Pipeline code, it would l
 
 ```python
 # nodes.py
+import pandas as pd
 from .lib import inscribe_triangles
 
-def circles_to_triangles(circles):
+def circles_to_triangles(circles: pd.DataFrame) -> pd.DataFrame:
     """
     Takes a collection of circles, inscribes a triangle in each circle,
     returns the collection of inscribed triangles.
     """
-    return circles.apply(inscribe_triangles)
+    return circles.apply(inscribe_triangles, axis=1)
 
 # pipeline.py
-
 from kedro.pipeline import Pipeline, node
 from .nodes import circles_to_triangle
 
@@ -229,7 +229,6 @@ survival_breakdown_chart:
 As we can see, the `filepath` for this chart is located inside of the `data/08_reporting/survival_breakdown.png` folder.
 The `data` has a lot of different subfolders. To understand the meaning of all of them, you can take a look at this page on the kedro documentation: [What is data engineering convention?](https://kedro.readthedocs.io/en/stable/11_faq/01_faq.html?highlight=reporting#what-is-data-engineering-convention).
 
-
 Opening up our file, we can see it should look something like this:
 
 ![Survival Breakdown](images/survival_breakdown.png)
@@ -248,7 +247,7 @@ The data from the value will then be passed to the function just as any DataSet 
 
 Take a look at the following example to get the gist.
 
-```yaml
+```python
 # nodes.py
 def print_favorite_soda(fav):
   print(f'My favorite soda is "${fav}"!')
@@ -259,16 +258,15 @@ def create_pipelines():
     node(
       print_favorite_soda,
       inputs='params:favorite_soda',
-      outputs=None
+      outputs=None,
     )
   ])
-
 
 # parameters.yml
 favorite_soda: coke
 
 # Console
-My favorite soda is "coke"!
+>> My favorite soda is "coke"!
 ```
 
 As you can see, the value for the parameter `favorite_soda` is being passed into the `print_favorite_soda` function. With this method, you can manage all of your parameters without worry. See the [kedro documentation on parameters](https://kedro.readthedocs.io/en/stable/04_kedro_project_setup/02_configuration.html?highlight=parameters#parameters) for more details.
