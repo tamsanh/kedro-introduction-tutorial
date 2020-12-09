@@ -15,6 +15,29 @@ A huge thank you to [@agconti](https://github.com/agconti), whose notebook this 
 
 Another thank you to [Kaggle.com](kaggle.com), who was the provider of this titanic dataset in the competition [Titanic: Machine Learning from Disaster]()
 
+## Why Kedro?
+
+For most individuals, you often will build a data pipeline in the following way:
+
+```python
+# run.py
+import pandas as pd
+from datetime import timedelta
+
+def main():
+  data = pd.read_csv('data.csv')
+  timezone_offset = 8
+  data['date'] = pd.to_datetime(data['date']) + timedelta(hours=timezone_offset)
+  data.to_csv('clean_data.csv')
+
+```
+
+What's wrong with this code?
+
+1. Untraceable data
+2. Untestable functions
+3. Hardcoded parameters
+
 ## Tutorial
 
 To get started with this tutorial, make sure to first clone it using
