@@ -144,33 +144,63 @@ Below, "Circles" is the input DataSet and "Triangles" is the output DataSet.
 If the previous illustration were to be represented in Pipeline code, it would look like this.
 
 ```python
+# nodes.py
+from .lib import inscribe_triangles
+
+def circles_to_triangles(circles):
+    """
+    Takes a collection of circles, inscribes a triangle in each circle,
+    returns the collection of inscribed triangles.
+    """
+    return circles.apply(inscribe_triangles)
+
+# pipeline.py
+
 from kedro.pipeline import Pipeline, node
-from .lib import circles_to_triangle
+from .nodes import circles_to_triangle
 
 def create_pipeline():
 
     return Pipeline([
         node(
             circles_to_triangle,
-            inputs="Circles",
-            outputs="Triangles",
+            inputs="circles",
+            outputs="triangles",
         )       
     ])
 ```
 
 The `node` function requires three arguments in order to create a node. The first is a function, representing the function the node is to run, the second is the inputs to the function and the third is the outputs of that function. Kedro will take the input data as pass it to the function directly to the arguments of the function, as well as take any output of the function and pass it to output datasets.
 
+Additionally, there would also be catalog entries corresponding to the two datasets.
+
+```yaml
+circles:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/circles.csv
+
+triangles:
+  type: pandas.CSVDataSet
+  filepath: data/02_intermediate/triangles.csv
+```
+
 #### Connecting our DataSet to our Node
 
-What datasets are available for our pipeline? Using the kedro CLI, we can easily view all the catalog data that is available to us by running the following command.
+In order to make data portable, kedro separates the actual file location of files from the reference to the files. In this case `survival_breakdown_chart` is a reference to a dictionary entry that contains the actual catalog entry.
 
+The catalog entry is located inside of the `conf/base/catalog.yml`, and if you open this file, you will see a depiction of all the files that kedro has access to.
+
+Let's take a look at one of the catalog entries that we will be using later:
+
+```yaml
+titanic_training_data:
+  type: pandas.CSVDataSet
+  filepath: data/01_raw/train.csv
 ```
-kedro catalog list
-```
 
-This will show us an entire list of the kedro catalog items. Listed are all the datasets that we can pass into the `inputs` and `outputs` parameters of our nodes, to connect nodes together.
+In this example, we have a dataset that has a type of `pandas.CSVDataSet`. This particular type will use `pandas.read_csv` to load the `train.csv` file into memory, passing it into the pipeline. There are many different available built-in dataset types; all can be found [here in the kedro documentation](https://github.com/quantumblacklabs/kedro/tree/master/kedro/extras/datasets).
 
-For this exercise, we're going to be connecting the `titanic_training_data` DataSet to the `survival_breakdown` pipeline.
+For this exercise, we're going to be connecting the `titanic_training_data` DataSet in the `survival_breakdown` pipeline.
 
 Remove the `REPLACE_ME` dataset and add in the `titanic_training_data` as value for `inputs`, inside of the `survival_breakdown` pipeline, for the `survival_breakdown` node.
 
@@ -188,16 +218,7 @@ def create_pipeline(**kwargs):
 
 And now let's go ahead and run the `survival-breakdown` pipeline with `kedro run --pipeline survival-breakdown`.
 
-#### Reading the Catalog
-
-When the pipeline completes, we will have the final output chart. But where is this chart located?
-
-Obviously, the system is outputting to the `survival_breakdown_chart` catalog entry, but what does that mean?
-
-In order to make this portable, kedro separates the actual file location of files from the reference to the files. In this case `survival_breakdown_chart` is a reference to a dictionary entry that contains the actual catalog entry.
-The catalog entry is located inside of the `conf/base/catalog.yml`, and if you open this file, you will see a depiction of all the files that kedro has access to.
-
-For our case, the chart file in question has the following catalog entry.
+Referring back to our `surivival_breakdown_chart` dataset, we can see that the `type` is different than the previous dataset: it's a `matplotlib.MatplotlibWriter` type. This type will accept a matplotlib Figure, and save it to disk at the chosen location specified by the `filepath`.
 
 ```yaml
 survival_breakdown_chart:
@@ -205,8 +226,9 @@ survival_breakdown_chart:
   filepath: data/08_reporting/survival_breakdown.png
 ```
 
-As we can see, the chart is located inside of the `data/08_reporting/survival_breakdown.png` folder.
+As we can see, the `filepath` for this chart is located inside of the `data/08_reporting/survival_breakdown.png` folder.
 The `data` has a lot of different subfolders. To understand the meaning of all of them, you can take a look at this page on the kedro documentation: [What is data engineering convention?](https://kedro.readthedocs.io/en/stable/11_faq/01_faq.html?highlight=reporting#what-is-data-engineering-convention).
+
 
 Opening up our file, we can see it should look something like this:
 
