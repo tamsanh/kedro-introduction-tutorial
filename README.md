@@ -405,6 +405,15 @@ Then, we can use `catalog.load(DATASET_NAME)` to load the dataset we wish to loa
 
 And that's it! Now you can go nuts with data analytics, while still piggybacking off of the work you and your colleagues have done.
 
+
+#### Newly Minted Features for Further Study
+
+This new-found construct was introduced in kedro `0.16.5`, and is here to stay. Hooks are now the canonical way of managing
+your pipeline and its state.
+
+The new object `KedroSession` was introduced in `0.17.0`, and it manages the entirety of pipeline state, across multiple
+runs.
+
 ### Visualizing All of Our Work
 
 Once all of the pipelines have been completed, it would be great to visualize all of our work. In order to do this, kedro has a visualization tool called `kedro-viz` which we can get by simply using `pip install kedro-viz`.
