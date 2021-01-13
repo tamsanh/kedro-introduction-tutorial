@@ -90,7 +90,7 @@ def gender_class_breakdown(df):
 
 
 def gender_proportion_breakdown(df):
-    fig = plt.figure(figsize=(18, 4))
+    fig = plt.figure(figsize=(18, 2))
     a = 0.65
     # Step 1
     ax1 = fig.add_subplot(141)
@@ -106,19 +106,6 @@ def gender_proportion_breakdown(df):
     )
     ax2.set_xlim(-1, 2)
     plt.title("Step. 2 \nWho Survived? with respect to Gender.")
-    plt.legend(loc="best")
-
-    ax3 = fig.add_subplot(143, sharey=ax1)
-    (
-        df.Survived[df.Sex == "male"].value_counts()
-        / float(df.Sex[df.Sex == "male"].size)
-    ).plot(kind="bar", label="Male")
-    (
-        df.Survived[df.Sex == "female"].value_counts()
-        / float(df.Sex[df.Sex == "female"].size)
-    ).plot(kind="bar", color="#FA2379", label="Female")
-    ax3.set_xlim(-1, 2)
-    plt.title("Who Survied proportionally?")
     plt.legend(loc="best")
 
     return fig
