@@ -135,16 +135,24 @@ Below, "Circles" is the input DataSet and "Triangles" is the output DataSet.
 If the previous illustration were to be represented in Pipeline code, it would look like this.
 
 ```python
+# nodes.py
+import pandas as pd
+def circles_to_triangles(df: pd.DataFrame):
+    # A function that transforms every row
+    # of circles into a triangle
+    return df.apply(..., axis=1)
+
+# pipeline.py
 from kedro.pipeline import Pipeline, node
-from .lib import circles_to_triangle
 
 def create_pipeline():
-
+    # Create the pipeline that will transfer the appropriate
+    # data to the proper locations.
     return Pipeline([
         node(
             circles_to_triangle,
-            inputs="Circles",
-            outputs="Triangles",
+            inputs="circles",
+            outputs="triangles",
         )       
     ])
 ```
