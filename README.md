@@ -181,6 +181,8 @@ def circles_to_triangles(circles: pd.DataFrame) -> pd.DataFrame:
 
 # pipeline.py
 from kedro.pipeline import Pipeline, node
+from .nodes import circles_to_triangles
+
 def create_pipeline():
     # Create the pipeline that will transfer the appropriate
     # data to the proper locations.
