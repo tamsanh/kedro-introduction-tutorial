@@ -72,8 +72,9 @@ Kedro may be installed simply by using `pip` and the Python Package Index. For t
 
 ```bash
 # Console
-pip install kedro kedro-viz scipy matplotlib
-pip install kedro[pandas] # Pandas is installed separately due a bug with pip.
+pip install kedro==0.16.5
+pip install kedro[pandas]==0.16.5 # Pandas is installed separately due a bug with pip.
+pip install kedro-viz scipy matplotlib
 ```
 
 **Note**: To reduce package size, kedro has split its package into multiple, smaller packages, which can be installed with `kedro[PACKAGE_NAME]`, where `PACKAGE_NAME` is the subpackage one wishes to include.
