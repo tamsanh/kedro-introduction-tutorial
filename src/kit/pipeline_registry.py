@@ -26,36 +26,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Project hooks."""
-from typing import Any, Dict, Iterable, Optional
+"""Project pipelines."""
+from typing import Dict
 
-from kedro.config import ConfigLoader
-from kedro.framework.hooks import hook_impl
-from kedro.io import DataCatalog
-from kedro.versioning import Journal
-from kedro.config import TemplatedConfigLoader
+from kedro.pipeline import Pipeline
+from kit.pipelines import class_gender_survival_breakdown, survival_breakdown, gender_survival_breakdown, hello_world
 
 
-class ProjectHooks:
-    @hook_impl
-    def register_config_loader(
-            self, conf_paths: Iterable[str], env: str, extra_params: Dict[str, Any],
-    ) -> ConfigLoader:
-        return TemplatedConfigLoader(
-            conf_paths,
-            globals_pattern="*globals.yml"
-        )
+def register_pipelines() -> Dict[str, Pipeline]:
+    """Register the project's pipelines.
 
-    @hook_impl
-    def register_catalog(
-        self,
-        catalog: Optional[Dict[str, Dict[str, Any]]],
-        credentials: Dict[str, Dict[str, Any]],
-        load_versions: Dict[str, str],
-        save_version: str,
-        journal: Journal,
-    ) -> DataCatalog:
+    Returns:
+        A mapping from a pipeline nxame to a ``Pipeline`` object.
 
-        return DataCatalog.from_config(
-            catalog, credentials, load_versions, save_version, journal
-        )
+    """
+
+    return {
+            "class-gender-survival-breakdown": class_gender_survival_breakdown.create_pipeline(),
+            "survival-breakdown": survival_breakdown.create_pipeline(),
+            "gender-survival-breakdown": gender_survival_breakdown.create_pipeline(),
+            "hello-world": hello_world.create_pipeline(),
+            "__default__": Pipeline(
+                [
+                    class_gender_survival_breakdown.create_pipeline()
+                    + survival_breakdown.create_pipeline()
+                    + gender_survival_breakdown.create_pipeline()
+                    + hello_world.create_pipeline()
+                ]
+            ),
+        }

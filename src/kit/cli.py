@@ -1,4 +1,4 @@
-# Copyright 2020 QuantumBlack Visual Analytics Limited
+# Copyright 2021 QuantumBlack Visual Analytics Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,31 +28,31 @@
 
 """Command line tools for manipulating a Kedro project.
 Intended to be invoked via `kedro`."""
-import os
 from itertools import chain
 from pathlib import Path
-from typing import Dict, Iterable, Tuple
+from typing import Iterable, Tuple
 
 import click
-from kedro.framework.cli import main as kedro_main
-from kedro.framework.cli.catalog import catalog as catalog_group
-from kedro.framework.cli.jupyter import jupyter as jupyter_group
-from kedro.framework.cli.pipeline import pipeline as pipeline_group
-from kedro.framework.cli.project import project_group
-from kedro.framework.cli.utils import KedroCliError, env_option, split_string
-from kedro.framework.context import load_context
+from kedro.framework.cli.utils import (
+    KedroCliError,
+    _config_file_callback,
+    _reformat_load_versions,
+    _split_params,
+    env_option,
+    split_string,
+)
+from kedro.framework.session import KedroSession
 from kedro.utils import load_obj
+
+import logging
+
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
-# get our package onto the python path
-PROJ_PATH = Path(__file__).resolve().parent
-
-ENV_ARG_HELP = """Run the pipeline in a configured environment. If not specified,
-pipeline will run using environment `local`."""
 FROM_INPUTS_HELP = (
     """A list of dataset names which should be used as a starting point."""
 )
+TO_OUTPUTS_HELP = """A list of dataset names which should be used as an end point."""
 FROM_NODES_HELP = """A list of node names which should be used as a starting point."""
 TO_NODES_HELP = """A list of node names which should be used as an end point."""
 NODE_ARG_HELP = """Run only nodes with specified names."""
@@ -79,76 +79,8 @@ example: param1:value1,param2:value2. Each parameter is split by the first comma
 so parameter values are allowed to contain colons, parameter keys are not."""
 
 
-def _config_file_callback(ctx, param, value):  # pylint: disable=unused-argument
-    """Config file callback, that replaces command line options with config file
-    values. If command line options are passed, they override config file values.
-    """
-    # for performance reasons
-    import anyconfig  # pylint: disable=import-outside-toplevel
-
-    ctx.default_map = ctx.default_map or {}
-    section = ctx.info_name
-
-    if value:
-        config = anyconfig.load(value)[section]
-        ctx.default_map.update(config)
-
-    return value
-
-
 def _get_values_as_tuple(values: Iterable[str]) -> Tuple[str, ...]:
     return tuple(chain.from_iterable(value.split(",") for value in values))
-
-
-def _reformat_load_versions(  # pylint: disable=unused-argument
-    ctx, param, value
-) -> Dict[str, str]:
-    """Reformat data structure from tuple to dictionary for `load-version`.
-        E.g ('dataset1:time1', 'dataset2:time2') -> {"dataset1": "time1", "dataset2": "time2"}.
-    """
-    load_versions_dict = {}
-
-    for load_version in value:
-        load_version_list = load_version.split(":", 1)
-        if len(load_version_list) != 2:
-            raise KedroCliError(
-                f"Expected the form of `load_version` to be "
-                f"`dataset_name:YYYY-MM-DDThh.mm.ss.sssZ`,"
-                f"found {load_version} instead"
-            )
-        load_versions_dict[load_version_list[0]] = load_version_list[1]
-
-    return load_versions_dict
-
-
-def _split_params(ctx, param, value):
-    if isinstance(value, dict):
-        return value
-    result = {}
-    for item in split_string(ctx, param, value):
-        item = item.split(":", 1)
-        if len(item) != 2:
-            ctx.fail(
-                f"Invalid format of `{param.name}` option: Item `{item[0]}` must contain "
-                f"a key and a value separated by `:`."
-            )
-        key = item[0].strip()
-        if not key:
-            ctx.fail(
-                f"Invalid format of `{param.name}` option: Parameter key "
-                f"cannot be an empty string."
-            )
-        value = item[1].strip()
-        result[key] = _try_convert_to_numeric(value)
-    return result
-
-
-def _try_convert_to_numeric(value):
-    try:
-        value = float(value)
-    except ValueError:
-        return value
-    return int(value) if value.is_integer() else value
 
 
 @click.group(context_settings=CONTEXT_SETTINGS, name=__file__)
@@ -159,6 +91,9 @@ def cli():
 @cli.command()
 @click.option(
     "--from-inputs", type=str, default="", help=FROM_INPUTS_HELP, callback=split_string
+)
+@click.option(
+    "--to-outputs", type=str, default="", help=TO_OUTPUTS_HELP, callback=split_string
 )
 @click.option(
     "--from-nodes", type=str, default="", help=FROM_NODES_HELP, callback=split_string
@@ -203,6 +138,7 @@ def run(
     to_nodes,
     from_nodes,
     from_inputs,
+    to_outputs,
     load_version,
     pipeline,
     config,
@@ -222,27 +158,19 @@ def run(
     tag = _get_values_as_tuple(tag) if tag else tag
     node_names = _get_values_as_tuple(node_names) if node_names else node_names
 
-    context = load_context(Path.cwd(), env=env, extra_params=params)
-    context.run(
-        tags=tag,
-        runner=runner_class(is_async=is_async),
-        node_names=node_names,
-        from_nodes=from_nodes,
-        to_nodes=to_nodes,
-        from_inputs=from_inputs,
-        load_versions=load_version,
-        pipeline_name=pipeline,
-    )
+    package_name = str(Path(__file__).resolve().parent.name)
 
+    params["pipeline_name"] = "__default__" if pipeline is None else pipeline
 
-cli.add_command(pipeline_group)
-cli.add_command(catalog_group)
-cli.add_command(jupyter_group)
-
-for command in project_group.commands.values():
-    cli.add_command(command)
-
-
-if __name__ == "__main__":
-    os.chdir(str(PROJ_PATH))
-    kedro_main()
+    with KedroSession.create(package_name, env=env, extra_params=params) as session:
+        session.run(
+            tags=tag,
+            runner=runner_class(is_async=is_async),
+            node_names=node_names,
+            from_nodes=from_nodes,
+            to_nodes=to_nodes,
+            from_inputs=from_inputs,
+            to_outputs=to_outputs,
+            load_versions=load_version,
+            pipeline_name=pipeline,
+        )

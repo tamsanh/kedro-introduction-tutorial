@@ -25,37 +25,20 @@
 #
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""datahub-etl-finance-core file for ensuring the package is executable
+as `datahub-etl-finance-core` and `python -m datahub_etl_finance_core`
+"""
+from pathlib import Path
 
-"""Project hooks."""
-from typing import Any, Dict, Iterable, Optional
+from kedro.framework.project import configure_project
 
-from kedro.config import ConfigLoader
-from kedro.framework.hooks import hook_impl
-from kedro.io import DataCatalog
-from kedro.versioning import Journal
-from kedro.config import TemplatedConfigLoader
+from .cli import run
 
 
-class ProjectHooks:
-    @hook_impl
-    def register_config_loader(
-            self, conf_paths: Iterable[str], env: str, extra_params: Dict[str, Any],
-    ) -> ConfigLoader:
-        return TemplatedConfigLoader(
-            conf_paths,
-            globals_pattern="*globals.yml"
-        )
+def main():
+    configure_project(Path(__file__).parent.name)
+    run()
 
-    @hook_impl
-    def register_catalog(
-        self,
-        catalog: Optional[Dict[str, Dict[str, Any]]],
-        credentials: Dict[str, Dict[str, Any]],
-        load_versions: Dict[str, str],
-        save_version: str,
-        journal: Journal,
-    ) -> DataCatalog:
 
-        return DataCatalog.from_config(
-            catalog, credentials, load_versions, save_version, journal
-        )
+if __name__ == "__main__":
+    main()

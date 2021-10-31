@@ -1,6 +1,0 @@
-context_path: kit.run.ProjectContext
-project_name: "kedro-introduction-tutorial-0.16.5"
-project_version: "0.16.5"
-package_name: "kit"
-hooks:
-      - kit.hooks.project_hooks
