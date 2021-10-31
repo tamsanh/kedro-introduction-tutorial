@@ -1,7 +1,7 @@
 # Kedro Introduction Tutorial
 
 Checkout the Video Here: [The Complete Beginner's Guide to Kedro - How to use Kedro 0.16.4
-](https://www.youtube.com/watch?v=x97ChYDd12U). Note: `pipeline.py` has been changed to `hooks.py` in 0.16.5. This has been updated in this repository.
+](https://www.youtube.com/watch?v=x97ChYDd12U). Note: `pipeline.py` has been changed to `hooks.py` since 0.16.5. This has been updated in this repository.
 
 ## Overview
 
@@ -17,7 +17,7 @@ Another thank you to [Kaggle.com](kaggle.com), who was the provider of this tita
 
 ## Why Kedro?
 
-For most individuals, you often will build a data pipeline in the following way:
+For most individuals, you will often build a data pipeline in the following way:
 
 ```python
 # run.py
@@ -51,15 +51,15 @@ git clone https://github.com/tamsanh/kedro-introduction-tutorial
 #### Python Environment
 
 I recommend to use a virtual environment, or conda environment for the purposes of this tutorial, and instructions to set that up are included below, for your convenience.
-
-##### Setting up Conda
+<mark>do MAKE SURE that your `PYTHON VERSION is 3.8` for this tutorial.</mark>
+##### Setting up using Conda
 ```bash
 # With Conda
 conda create python=3.8 --name kedro-tutorial-conda
 conda activate !$
 ```
 
-##### Setting up Virtual Environment
+##### Or Setting up using Virtual Environment
 ```bash
 # With Virtual Environment (MacOSX)
 virtualenv venv
@@ -72,8 +72,8 @@ Kedro may be installed simply by using `pip` and the Python Package Index. For t
 
 ```bash
 # Console
-pip install kedro==0.16.5
-pip install kedro[pandas]==0.16.5 # Pandas is installed separately due a bug with pip.
+pip install kedro==0.17.4
+pip install kedro[pandas]==0.17.4 # Pandas is installed separately due a bug with pip.
 pip install kedro-viz scipy matplotlib
 ```
 
@@ -88,12 +88,12 @@ In order to interact with kedro, we use the kedro command line interface (CLI). 
 The `kedro run` command allows us to run our pipelines. But what pipelines exist to run? Using the following command, we can list all the pipelines that are available.
 
 ```
-kedro pipeline list
+kedro registry list
 ```
 
 This will output a list of all pipelines available to us. But where are they instantiated?
 
-Traditionally, they can be found inside of the `src/{project_name}/hooks.py` file (in our case, our project name is `kit`).
+Since 0.17.2, they can be found inside of the `src/{package_name}/pipeline_registry.py` file (in our case, our package name is `kit`, as also defined in `pyproject.tomal`).
 
 Looking inside of this file, we find a function called `create_pipelines`. By default, it is this function that is used by kedro to create the pipelines for our run. Notice the dictionary being returned, at the bottom. This dictionary is what determines the available pipelines for us to run.
 
@@ -101,11 +101,10 @@ There's one pipeline in particular we're going to try running, and that's the `h
 
 ```python
 # src/kit/hooks.py
-class ProjectHooks:
-    @hook_impl
-    def register_pipelines(self) -> Dict[str, Pipeline]:
-        ...
-        return {
+def register_pipelines() -> Dict[str, Pipeline]:
+    ...
+
+    return {
             ...
             "hello-world": hello_world.create_pipeline(),
             ...
@@ -117,7 +116,7 @@ class ProjectHooks:
 
 #### Run the Pipeline
 
-Let's run the pipeline! Make sure you `cd` into the `titanic-tutorial-starter` project, first.
+Let's run the pipeline! Make sure you `cd` into the project directory, e.g. `kedro-introduction-tutorial` project, first.
 
 ```bash
 # Console
@@ -461,7 +460,7 @@ And that's it! Now you can go nuts with data analytics, while still piggybacking
 
 #### Newly Minted Features for Further Study
 
-This new-found construct was introduced in kedro `0.16.5`, and is here to stay. Hooks are now the canonical way of managing
+This new-found construct was introduced since kedro `0.16.5`, and is here to stay. Hooks are now the canonical way of managing
 your pipeline and its state.
 
 The new object `KedroSession` was introduced in `0.17.0`, and it manages the entirety of pipeline state, across multiple
