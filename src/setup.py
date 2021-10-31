@@ -28,8 +28,9 @@
 
 from setuptools import find_packages, setup
 
-entry_point = "kedro-introduction-tutorial = kit.run:run_package"
-
+entry_point = (
+    "kedro-introduction-tutorial = kit.__main__:main"
+)
 
 # get the dependencies and installs
 with open("requirements.txt", "r", encoding="utf-8") as f:
@@ -50,16 +51,14 @@ setup(
     install_requires=requires,
     extras_require={
         "docs": [
-            "sphinx>=1.6.3, <2.0",
-            "sphinx_rtd_theme==0.4.1",
-            "nbsphinx==0.3.4",
+            "sphinx~=3.4.3",
+            "sphinx_rtd_theme==0.5.1",
+            "nbsphinx==0.8.1",
             "nbstripout==0.3.3",
-            "recommonmark==0.5.0",
-            "sphinx-autodoc-typehints==1.6.0",
-            "sphinx_copybutton==0.2.5",
-            "jupyter_client>=5.1.0, <7.0",
-            "tornado>=4.2, <6.0",
-            "ipykernel>=4.8.1, <5.0",
+            "recommonmark==0.7.1",
+            "sphinx-autodoc-typehints==1.11.1",
+            "sphinx_copybutton==0.3.1",
+            "ipykernel~=5.3",
         ]
     },
 )

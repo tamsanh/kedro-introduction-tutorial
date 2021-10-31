@@ -425,8 +425,20 @@ For the `[PATH TO PROJECT ROOT]`, this can be relative or absolute.
 ```
 
 
-If you are in the `notebooks` folder, you can simply use `..` for the relative path.
+If you are in the `notebooks` folder, you can simply use `..` for the relative path or use line magic as shown below.
 
+```
+%reload_kedro
+```
+If you encountered error 'No module named kit', add the module path to PATH before running %reload_kedro
+
+```python
+import os
+module_path = os.path.abspath(os.path.join('../src'))
+
+if module_path not in sys.path:
+    sys.path.append(module_path)
+```
 
 ##### Load the Project Manually
 
