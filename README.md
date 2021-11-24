@@ -84,6 +84,7 @@ Kedro may be installed simply by using `pip` and the Python Package Index. For t
 pip install kedro==0.17.4
 pip install kedro[pandas]==0.17.4 # Pandas is installed separately due a bug with pip.
 pip install kedro-viz scipy matplotlib
+pip install dynaconf==3.1.5 # kedro 0.17.4 does not work with dynaconf 3.1.7
 ```
 
 **Note**: To reduce package size, kedro has split its package into multiple, smaller packages, which can be installed with `kedro[PACKAGE_NAME]`, where `PACKAGE_NAME` is the subpackage one wishes to include.
