@@ -42,8 +42,17 @@ What's wrong with this code?
 
 To get started with this tutorial, make sure to first clone it using
 
+if on master branch
 ```bash
 git clone https://github.com/tamsanh/kedro-introduction-tutorial
+```
+if on other branch
+```bash
+git clone -b {branch_name} https://github.com/tamsanh/kedro-introduction-tutorial
+```
+e.g.
+```bash
+git clone -b vdxo_0.17.4 https://github.com/tamsanh/kedro-introduction-tutorial
 ```
 
 ### Part 0: Getting Kedro
@@ -88,7 +97,7 @@ In order to interact with kedro, we use the kedro command line interface (CLI). 
 The `kedro run` command allows us to run our pipelines. But what pipelines exist to run? Using the following command, we can list all the pipelines that are available.
 
 ```
-kedro registry list
+kedro pipeline list
 ```
 
 This will output a list of all pipelines available to us. But where are they instantiated?
