@@ -1,3 +1,7 @@
+# vdxo_0.17.4
+Use branch vdxo_0.17.4 for kedro version 0.17.4
+https://github.com/tamsanh/kedro-introduction-tutorial/tree/vdxo_0.17.4
+
 # Kedro Introduction Tutorial
 
 Checkout the Video Here: [The Complete Beginner's Guide to Kedro - How to use Kedro 0.16.4
