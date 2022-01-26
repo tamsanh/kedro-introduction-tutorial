@@ -42,15 +42,15 @@ What's wrong with this code?
 
 To get started with this tutorial, make sure to first clone it using
 
-if on master branch
+if you want to clone the master branch
 ```bash
 git clone https://github.com/tamsanh/kedro-introduction-tutorial
 ```
-if on other branch
+if you want to clone other branch, e.g. vdxo_0.17.4
 ```bash
 git clone -b {branch_name} https://github.com/tamsanh/kedro-introduction-tutorial
 ```
-e.g.
+e.g. the vdxo_0.17.4 branch
 ```bash
 git clone -b vdxo_0.17.4 https://github.com/tamsanh/kedro-introduction-tutorial
 ```
